@@ -1,8 +1,9 @@
 import ThemeSwitch from "@/components/commons/ThemeSwitch";
+import User from "@/components/commons/User";
 
 function Navbar() {
   return (
-    <div className="flex w-full items-center justify-between bg-background-neutral">
+    <div className="flex w-full items-stretch justify-between bg-neutral-500 dark:bg-secondary">
       <div className="relative w-fit overflow-hidden rounded-r-2xl bg-primary p-[22px] before:absolute before:inset-0 before:top-1/2 before:z-10 before:rounded-tl-2xl before:bg-primary-light before:content-['']">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -17,10 +18,11 @@ function Navbar() {
           />
         </svg>
       </div>
-      <div>
+      <div className="flex items-center gap-6 px-6">
         <ThemeSwitch />
+        <div className="h-full w-px bg-neutral-600" />
+        <User />
       </div>
-      <div></div>
     </div>
   );
 }
