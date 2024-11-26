@@ -1,5 +1,5 @@
 import Navbar from "@/components/layout/Navbar";
-import Viewer from "@/components/layout/Viewer";
+import Dashboard from "@/components/layout/Dashboard";
 import useTheme from "@/stores/theme.store";
 
 function App() {
@@ -7,7 +7,7 @@ function App() {
   return (
     <div className={`w-full ${theme} flex h-screen flex-col`}>
       <Navbar />
-      <Viewer />
+      <Dashboard />
     </div>
   );
 }
