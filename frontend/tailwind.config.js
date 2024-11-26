@@ -32,8 +32,11 @@ export default {
         DEFAULT: "#EC5757",
         light: "#9277FF",
       },
+      paid: "#33D69F",
+      pending: "#FF8F00",
     },
     letterSpacing: {
+      sm: "-1.125px",
       tightest: "-0.75px",
       tight: "-0.25px",
       normal: "-0.1px",
@@ -47,6 +50,9 @@ export default {
       },
       inset: {
         out: "calc(100% + 22px)",
+      },
+      boxShadow: {
+        card: "0px 10px 10px -10px rgba(72, 84, 159, 0.10)",
       },
     },
   },

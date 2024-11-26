@@ -5,7 +5,7 @@ import useTheme from "@/stores/theme.store";
 function App() {
   const theme = useTheme((state) => state.theme);
   return (
-    <div className={`w-full ${theme} flex h-screen flex-col`}>
+    <div className={`w-full ${theme} flex h-screen min-w-80 flex-col`}>
       <Navbar />
       <Dashboard />
     </div>
