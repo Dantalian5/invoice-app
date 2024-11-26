@@ -1,4 +1,5 @@
-import AddButton from "@/components/commons/AddButton";
+import AddBtn from "@/components/commons/AddBtn";
+import FilterBtn from "@/components/commons/FilterBtn";
 function ActionBar() {
   return (
     <div className="flex items-center justify-between py-8">
@@ -10,8 +11,9 @@ function ActionBar() {
           7 invoices
         </p>
       </div>
-      <div>
-        <AddButton />
+      <div className="flex items-center gap-5">
+        <FilterBtn />
+        <AddBtn />
       </div>
     </div>
   );

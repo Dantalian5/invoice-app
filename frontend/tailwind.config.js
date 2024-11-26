@@ -45,6 +45,9 @@ export default {
         sm: ["13px", "15px"],
         base: ["15px", "24px"],
       },
+      inset: {
+        out: "calc(100% + 22px)",
+      },
     },
   },
   plugins: [],

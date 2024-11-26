@@ -9,3 +9,8 @@
     src: url(assets/fonts/LeagueSpartan-VariableFont_wght.ttf) format("ttf");
   }
 }
+@layer components {
+  .transition-theme {
+    @apply transition-colors duration-300 ease-in-out;
+  }
+}
