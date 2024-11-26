@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: "Spartan";
+    font-display: swap;
+    src: url(assets/fonts/LeagueSpartan-VariableFont_wght.ttf) format("ttf");
+  }
+}
