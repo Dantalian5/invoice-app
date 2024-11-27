@@ -14,9 +14,9 @@ function Dashboard() {
           {data.map((invoice) => (
             <li
               key={invoice.id}
-              className="transition-theme grid w-full grid-cols-2 items-center gap-y-2 rounded-lg bg-white p-6 py-4 shadow-card sm:flex sm:auto-cols-auto dark:bg-secondary"
+              className="transition-theme grid w-full grid-cols-2 items-center gap-y-2 rounded-lg bg-white p-6 py-4 shadow-card md:flex dark:bg-secondary"
             >
-              <h2 className="col-span-1 col-start-1 row-span-1 mb-4 w-[7ch] text-base font-bold leading-none tracking-tight text-black-light sm:row-start-1 sm:mb-0 sm:mr-7 dark:text-white">
+              <h2 className="col-span-1 col-start-1 row-span-1 mb-4 w-[7ch] text-base font-bold leading-none tracking-tight text-black-light md:row-start-1 md:mb-0 md:mr-7 dark:text-white">
                 <span className="text-neutral-400">#</span>
                 {invoice.id}
               </h2>
@@ -26,16 +26,16 @@ function Dashboard() {
                 </span>
                 {formatDate(invoice.paymentDue)}
               </p>
-              <p className="col-span-1 col-start-2 row-span-1 w-fit self-start justify-self-end text-sm font-medium tracking-normal text-[#858bb2] sm:mr-auto sm:self-center dark:text-white">
+              <p className="col-span-1 col-start-2 row-span-1 w-fit self-start justify-self-end text-sm font-medium tracking-normal text-[#858bb2] md:mr-auto md:self-center dark:text-white">
                 {invoice.clientName}
               </p>
-              <p className="col-span-1 row-span-1 row-start-3 text-base font-bold tracking-tight text-black-light sm:mr-10 dark:text-white">
+              <p className="col-span-1 row-span-1 row-start-3 text-base font-bold tracking-tight text-black-light md:mr-10 dark:text-white">
                 £ {formatCurrency(invoice.total)}
               </p>
-              <div className="col-span-1 col-start-2 row-span-2 h-fit w-fit self-center justify-self-end sm:mr-5">
+              <div className="col-span-1 col-start-2 row-span-2 h-fit w-fit self-center justify-self-end md:mr-5">
                 <StatusShield status={invoice.status} />
               </div>
-              <span className="hidden size-fit rotate-180 sm:block">
+              <span className="hidden size-fit rotate-180 md:block">
                 {svgArrowLeft}
               </span>
             </li>
