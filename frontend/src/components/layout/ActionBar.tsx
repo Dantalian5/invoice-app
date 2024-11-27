@@ -2,7 +2,7 @@ import AddBtn from "@/components/commons/AddBtn";
 import FilterBtn from "@/components/commons/FilterBtn";
 function ActionBar() {
   return (
-    <div className="flex items-center justify-between">
+    <div className="flex items-center justify-between px-6 sm:px-12">
       <div className="w-fit">
         <h1 className="text-2xl font-bold tracking-tightest text-black-light sm:mb-[6px] sm:text-4xl sm:tracking-sm dark:text-white">
           Invoices
