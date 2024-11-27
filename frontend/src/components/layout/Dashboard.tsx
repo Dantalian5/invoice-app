@@ -35,7 +35,7 @@ function Dashboard() {
             {data.map((invoice) => (
               <li key={invoice.id} className="w-full">
                 <Link
-                  to={`/invoice/${invoice.id}`}
+                  to={`/dashboard/${invoice.id}`}
                   className="transition-theme grid w-full cursor-pointer grid-cols-2 items-center gap-y-2 rounded-lg bg-white p-6 py-4 shadow-card hover:ring-1 hover:ring-primary md:flex dark:bg-secondary"
                 >
                   <h2 className="col-span-1 col-start-1 row-span-1 mb-4 w-[7ch] text-base font-bold leading-none tracking-tight text-black-light md:row-start-1 md:mb-0 md:mr-7 dark:text-white">

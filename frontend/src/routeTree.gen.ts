@@ -8,47 +8,56 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { createFileRoute } from '@tanstack/react-router'
-
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-
-// Create Virtual Routes
-
-const DashboardLazyImport = createFileRoute('/dashboard')()
-const InvoiceIdLazyImport = createFileRoute('/invoice/$id')()
+import { Route as IndexImport } from './routes/index'
+import { Route as DashboardIndexImport } from './routes/dashboard/index'
+import { Route as DashboardIdImport } from './routes/dashboard/$id'
 
 // Create/Update Routes
 
-const DashboardLazyRoute = DashboardLazyImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
+const IndexRoute = IndexImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/dashboard.lazy').then((d) => d.Route))
+} as any)
 
-const InvoiceIdLazyRoute = InvoiceIdLazyImport.update({
-  id: '/invoice/$id',
-  path: '/invoice/$id',
+const DashboardIndexRoute = DashboardIndexImport.update({
+  id: '/dashboard/',
+  path: '/dashboard/',
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/invoice.$id.lazy').then((d) => d.Route))
+} as any)
+
+const DashboardIdRoute = DashboardIdImport.update({
+  id: '/dashboard/$id',
+  path: '/dashboard/$id',
+  getParentRoute: () => rootRoute,
+} as any)
 
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardLazyImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/invoice/$id': {
-      id: '/invoice/$id'
-      path: '/invoice/$id'
-      fullPath: '/invoice/$id'
-      preLoaderRoute: typeof InvoiceIdLazyImport
+    '/dashboard/$id': {
+      id: '/dashboard/$id'
+      path: '/dashboard/$id'
+      fullPath: '/dashboard/$id'
+      preLoaderRoute: typeof DashboardIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardIndexImport
       parentRoute: typeof rootRoute
     }
   }
@@ -57,38 +66,43 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export interface FileRoutesByFullPath {
-  '/dashboard': typeof DashboardLazyRoute
-  '/invoice/$id': typeof InvoiceIdLazyRoute
+  '/': typeof IndexRoute
+  '/dashboard/$id': typeof DashboardIdRoute
+  '/dashboard': typeof DashboardIndexRoute
 }
 
 export interface FileRoutesByTo {
-  '/dashboard': typeof DashboardLazyRoute
-  '/invoice/$id': typeof InvoiceIdLazyRoute
+  '/': typeof IndexRoute
+  '/dashboard/$id': typeof DashboardIdRoute
+  '/dashboard': typeof DashboardIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
-  '/dashboard': typeof DashboardLazyRoute
-  '/invoice/$id': typeof InvoiceIdLazyRoute
+  '/': typeof IndexRoute
+  '/dashboard/$id': typeof DashboardIdRoute
+  '/dashboard/': typeof DashboardIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/dashboard' | '/invoice/$id'
+  fullPaths: '/' | '/dashboard/$id' | '/dashboard'
   fileRoutesByTo: FileRoutesByTo
-  to: '/dashboard' | '/invoice/$id'
-  id: '__root__' | '/dashboard' | '/invoice/$id'
+  to: '/' | '/dashboard/$id' | '/dashboard'
+  id: '__root__' | '/' | '/dashboard/$id' | '/dashboard/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-  DashboardLazyRoute: typeof DashboardLazyRoute
-  InvoiceIdLazyRoute: typeof InvoiceIdLazyRoute
+  IndexRoute: typeof IndexRoute
+  DashboardIdRoute: typeof DashboardIdRoute
+  DashboardIndexRoute: typeof DashboardIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  DashboardLazyRoute: DashboardLazyRoute,
-  InvoiceIdLazyRoute: InvoiceIdLazyRoute,
+  IndexRoute: IndexRoute,
+  DashboardIdRoute: DashboardIdRoute,
+  DashboardIndexRoute: DashboardIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -101,15 +115,19 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/dashboard",
-        "/invoice/$id"
+        "/",
+        "/dashboard/$id",
+        "/dashboard/"
       ]
     },
-    "/dashboard": {
-      "filePath": "dashboard.lazy.tsx"
+    "/": {
+      "filePath": "index.tsx"
     },
-    "/invoice/$id": {
-      "filePath": "invoice.$id.lazy.tsx"
+    "/dashboard/$id": {
+      "filePath": "dashboard/$id.tsx"
+    },
+    "/dashboard/": {
+      "filePath": "dashboard/index.tsx"
     }
   }
 }
