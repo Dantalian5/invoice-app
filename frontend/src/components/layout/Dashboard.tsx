@@ -10,12 +10,12 @@ function Dashboard() {
   const data: any[] = db;
 
   return (
-    <div className="flex h-full w-full flex-col overflow-hidden pt-8 sm:pt-16">
+    <div className="flex size-full flex-col overflow-hidden pt-8 sm:pt-16 lg:pt-[78px]">
       <ActionBar />
-      <div className="relative mt-4 flex w-full flex-grow flex-col overflow-hidden">
+      <div className="relative flex w-full flex-grow flex-col overflow-hidden pt-4 lg:pt-6">
         <div className="pointer-events-none absolute left-0 right-0 top-0 z-10 h-4 bg-gradient-to-b from-neutral-100 to-neutral-100/0 sm:h-8 dark:from-black dark:to-black/0"></div>
         {data.length === 0 ? (
-          <div className="flex flex-grow flex-col items-center justify-center overflow-scroll px-6 py-10 sm:px-12">
+          <div className="flex flex-grow flex-col items-center justify-center overflow-scroll px-6 py-10 sm:px-10">
             <img
               src={emptyImg}
               alt="Illustration of empty dashboard"
@@ -31,7 +31,7 @@ function Dashboard() {
             </p>
           </div>
         ) : (
-          <ul className="flex w-full flex-col gap-4 overflow-scroll px-6 py-4 sm:px-12 sm:py-10">
+          <ul className="flex w-full flex-col gap-4 overflow-scroll px-6 py-4 sm:px-10 sm:pb-20 sm:pt-10">
             {data.map((invoice) => (
               <li key={invoice.id} className="w-full">
                 <Link

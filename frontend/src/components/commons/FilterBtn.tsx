@@ -39,11 +39,11 @@ function FilterBtn() {
         </span>
       </button>
       {isFilterSelectorShown && (
-        <div className="absolute -right-14 top-out z-50 flex w-fit min-w-48 flex-col gap-4 rounded-lg bg-white p-6 dark:bg-secondary-light">
+        <div className="absolute right-1/2 top-out z-50 flex w-fit min-w-48 translate-x-1/2 flex-col gap-4 rounded-lg bg-white p-6 dark:bg-secondary-light">
           {filterArray.map((filter) => (
             <label
               key={filter.value}
-              className="flex cursor-pointer items-center gap-[0.8125rem]"
+              className="group flex cursor-pointer items-center gap-[0.8125rem]"
             >
               <input
                 onChange={() => toggleFilter(filter.value)}
@@ -51,7 +51,7 @@ function FilterBtn() {
                 className="peer sr-only"
                 checked={filters.includes(filter.value)}
               />
-              <span className="flex size-4 items-center justify-center rounded-sm bg-neutral-200 text-white *:hidden peer-checked:bg-primary peer-checked:*:block peer-focus:ring-2 peer-focus:ring-primary peer-focus:peer-checked:ring-primary-light dark:bg-secondary">
+              <span className="flex size-4 items-center justify-center rounded-sm bg-neutral-200 text-white *:hidden group-hover:ring-2 group-hover:ring-primary peer-checked:bg-primary peer-checked:*:block peer-focus:ring-2 peer-focus:ring-primary peer-focus:peer-checked:ring-primary-light dark:bg-secondary">
                 {svgCheck}
               </span>
               <span className="text-base font-bold tracking-tight text-secondary dark:text-white">

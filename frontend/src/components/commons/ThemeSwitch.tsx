@@ -8,6 +8,7 @@ function ThemeSwitch() {
     <button
       onClick={toggleTheme}
       className="relative size-7 overflow-hidden p-1 text-xl"
+      aria-label="Toggle Color Theme"
     >
       <span
         className={`absolute left-0 block p-1 transition-all duration-500 ${theme === "light" ? "bottom-0" : "bottom-full"}`}

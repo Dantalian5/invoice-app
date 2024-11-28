@@ -12,7 +12,7 @@ function ActionBar() {
           <span className="hidden sm:inline">total</span> invoices
         </p>
       </div>
-      <div className="flex items-center gap-5">
+      <div className="flex items-center gap-5 sm:gap-10">
         <FilterBtn />
         <AddBtn />
       </div>

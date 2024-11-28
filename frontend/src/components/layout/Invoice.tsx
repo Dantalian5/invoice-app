@@ -11,7 +11,7 @@ function Invoice() {
   const invoice: any = db.find((invoice) => invoice.id === id);
 
   return (
-    <div className="relative flex w-full flex-grow flex-col overflow-hidden pt-8 sm:pt-12">
+    <div className="relative flex size-full flex-col overflow-hidden pt-8 sm:pt-12 lg:pt-[65px]">
       <div className="mb-4 w-full px-6 sm:px-10">
         <Link
           to="/dashboard"
@@ -20,9 +20,9 @@ function Invoice() {
           <span>{svgArrowLeft}</span>Go back
         </Link>
       </div>
-      <div className="relative flex w-full flex-grow flex-col overflow-hidden pb-[90px] sm:pb-0">
-        <div className="pointer-events-none absolute left-0 right-0 top-0 z-10 h-4 bg-gradient-to-b from-neutral-100 to-neutral-100/0 sm:h-4 dark:from-black dark:to-black/0"></div>
-        <div className="w-full overflow-scroll px-6 pb-32 pt-4 sm:px-10">
+      <div className="relative flex w-full flex-grow flex-col overflow-hidden pb-[100px] sm:pb-0">
+        <div className="pointer-events-none absolute left-0 right-0 top-0 z-10 h-4 bg-gradient-to-b from-neutral-100 to-neutral-100/0 dark:from-black dark:to-black/0"></div>
+        <div className="w-full overflow-scroll px-6 pb-10 pt-4 sm:px-10">
           <div className="transition-theme mb-4 flex w-full items-center justify-between gap-5 rounded-lg bg-white p-6 shadow-card sm:mb-6 sm:px-8 sm:py-5 dark:bg-secondary">
             <p className="text-sm font-medium tracking-normal text-[#858bb2] dark:text-neutral-200">
               Status
@@ -160,7 +160,7 @@ function Invoice() {
             </div>
           </div>
         </div>
-        <div className="pointer-events-none absolute bottom-[90px] left-0 right-0 z-10 h-4 bg-gradient-to-t from-neutral-100 to-neutral-100/0 sm:bottom-0 sm:h-8 dark:from-black dark:to-black/0"></div>
+        <div className="pointer-events-none absolute bottom-[100px] left-0 right-0 z-10 h-4 bg-gradient-to-t from-neutral-100 to-neutral-100/0 sm:bottom-0 dark:from-black dark:to-black/0"></div>
       </div>
     </div>
   );
