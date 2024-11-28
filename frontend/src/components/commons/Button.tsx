@@ -19,7 +19,7 @@ function Button({
       break;
     case "secondary":
       classColor =
-        "bg-[#f9fafe] text-neutral-400 hover:bg-neutral-200 dark:bg-secondary-light dark:text-neutral-200 dark:hover:bg-white";
+        "bg-[#f9fafe] text-neutral-400 hover:bg-neutral-200 dark:bg-secondary-light dark:text-neutral-200 dark:hover:bg-white dark:hover:text-neutral-400";
       break;
     case "danger":
       classColor = "bg-danger text-white hover:bg-danger-light";
@@ -29,7 +29,7 @@ function Button({
         "bg-neutral-500 text-neutral-300 hover:bg-black-light dark:text-neutral-200 dark:hover:bg-secondary";
       break;
     default:
-      classColor = "bg-primary text-white";
+      classColor = "bg-primary text-white hover:bg-primary-light";
   }
   const classWidth = isFullWidth ? "w-full" : "w-fit";
   const classes = [classColor, className, classWidth].join(" ");
@@ -38,7 +38,7 @@ function Button({
       className={
         classes +
         " " +
-        "rounded-full bg-primary px-6 py-[1.125rem] text-base font-bold leading-none tracking-tight"
+        "min-w-fit rounded-full px-6 py-[1.125rem] text-base font-bold leading-none tracking-tight"
       }
       {...props}
     >
