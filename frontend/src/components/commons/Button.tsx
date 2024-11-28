@@ -38,7 +38,7 @@ function Button({
       className={
         classes +
         " " +
-        "rounded-full bg-primary px-6 py-[1.125rem] text-base font-bold leading-none tracking-tight"
+        "min-w-fit rounded-full px-6 py-[1.125rem] text-base font-bold leading-none tracking-tight"
       }
       {...props}
     >

@@ -30,7 +30,7 @@ export default {
       },
       danger: {
         DEFAULT: "#EC5757",
-        light: "#9277FF",
+        light: "#ff9797",
       },
       paid: "#33D69F",
       pending: "#FF8F00",
