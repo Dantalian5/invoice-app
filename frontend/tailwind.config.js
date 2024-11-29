@@ -34,6 +34,7 @@ export default {
       },
       paid: "#33D69F",
       pending: "#FF8F00",
+      transparent: "transparent",
     },
     letterSpacing: {
       sm: "-1.125px",

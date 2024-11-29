@@ -6,7 +6,15 @@
   @font-face {
     font-family: "Spartan";
     font-display: swap;
-    src: url(assets/fonts/LeagueSpartan-VariableFont_wght.ttf) format("ttf");
+    src: url(./assets/fonts/LeagueSpartan-VariableFont_wght.ttf)
+      format("truetype");
+  }
+  html {
+    font-family: "Spartan", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-synthesis: none;
   }
 }
 @layer components {
