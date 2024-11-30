@@ -2,15 +2,24 @@ import { useInvoice } from "@/components/context/InvoiceContext";
 import { svgArrowLeft, svgDelete } from "@/components/svg/SvgIcons";
 import Button from "@/components/commons/Button";
 import Input from "@/components/form/Input";
+import DatePicker from "@/components/form/DatePicker";
 import { z } from "zod";
-import { useForm, type SubmitHandler, useFieldArray } from "react-hook-form";
+import {
+  useForm,
+  type SubmitHandler,
+  useFieldArray,
+  useWatch,
+  Controller,
+} from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
+import { parseStringToDate } from "@/lib/dateFns";
+import { formatCurrency } from "@/lib/helpers";
 
 const formSchema = z.object({
   clientName: z.string().min(1, "can't be empty"),
   clientEmail: z.string().email("invalid email address"),
-  createdAt: z.string().date("invalid date"),
+  createdAt: z.date({ message: "invalid date" }),
   paymentTerms: z.number().int().min(1, "can't be empty"),
   description: z.string().min(1, "can't be empty"),
   senderAddress: z.object({
@@ -25,14 +34,16 @@ const formSchema = z.object({
     postCode: z.string().min(1, "can't be empty"),
     country: z.string().min(1, "can't be empty"),
   }),
-  items: z.array(
-    z.object({
-      name: z.string().min(1, "can't be empty"),
-      quantity: z.number().int().min(1, "can't be empty"),
-      price: z.number().min(1, "can't be empty"),
-      total: z.number().min(1, "can't be empty"),
-    }),
-  ),
+  items: z
+    .array(
+      z.object({
+        name: z.string().min(1, "can't be empty"),
+        quantity: z.number().int().min(1, "can't be empty"),
+        price: z.number().min(1, "can't be empty"),
+        total: z.number().min(1, "can't be empty"),
+      }),
+    )
+    .min(1, "An item most be added"),
 });
 type FormSchema = z.infer<typeof formSchema>;
 
@@ -42,11 +53,11 @@ const InvoiceForm = () => {
 
   const defaultValues =
     mode === "edit"
-      ? invoiceData
+      ? { ...invoiceData, createdAt: parseStringToDate(invoiceData.createdAt) }
       : {
           clientName: "",
           clientEmail: "",
-          createdAt: "",
+          createdAt: new Date(),
           paymentTerms: 0,
           description: "",
           senderAddress: {
@@ -77,6 +88,11 @@ const InvoiceForm = () => {
   const { fields, append, remove } = useFieldArray({
     control,
     name: "items",
+  });
+  const items = useWatch({
+    control,
+    name: "items",
+    defaultValue: [],
   });
 
   const onSubmit: SubmitHandler<FormSchema> = (data) => console.log(data);
@@ -109,6 +125,7 @@ const InvoiceForm = () => {
           <form
             className="z-0 size-full overflow-scroll px-6 pb-20 pt-4"
             onSubmit={handleSubmit(onSubmit)}
+            noValidate
           >
             <p className="mb-6 text-2xl font-bold -tracking-[0.5px] text-black-light dark:text-white">
               {mode === "create" ? (
@@ -170,6 +187,7 @@ const InvoiceForm = () => {
               <Input
                 className="w-full"
                 label="Client's Email"
+                type="email"
                 {...register("clientEmail")}
                 isError={!!errors.clientEmail}
                 errorMessage={errors.clientEmail?.message}
@@ -204,12 +222,19 @@ const InvoiceForm = () => {
               />
             </div>
             <div className="mb-16 flex w-full flex-wrap gap-6">
-              <Input
-                className="w-full"
-                label="Invoice Date"
-                {...register("createdAt")}
-                isError={!!errors.createdAt}
-                errorMessage={errors.createdAt?.message}
+              <Controller
+                name="createdAt"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <DatePicker
+                    value={field.value}
+                    onChange={field.onChange}
+                    label="Issue Date"
+                    isError={!!fieldState.error}
+                    errorMessage={fieldState.error?.message}
+                    className="w-full"
+                  />
+                )}
               />
               <Input
                 className="w-full"
@@ -264,12 +289,15 @@ const InvoiceForm = () => {
                     <div className="flex-[1_1_65px] text-sm font-medium tracking-normal text-neutral-400">
                       <span className="block w-full">Total</span>
                       <span className="mt-2 block w-full py-4 text-base font-bold">
-                        400
+                        {formatCurrency(
+                          Number(items[index]?.price) *
+                            Number(items[index]?.quantity),
+                        )}
                       </span>
                     </div>
                     <button
                       type="button"
-                      className="mb-5 mr-4 w-fit self-end text-neutral-300"
+                      className="mb-5 mr-4 w-fit self-end text-neutral-300 hover:text-danger"
                       onClick={() => remove(index)}
                       aria-label="Remove item"
                     >
@@ -289,6 +317,15 @@ const InvoiceForm = () => {
                 </Button>
               </div>
             </div>
+
+            {Object.entries(errors).length > 0 && (
+              <div className="mt-6 w-full text-xs font-semibold leading-normal text-danger">
+                <span className="block">- All fields must be added</span>
+                {errors.items && (
+                  <span className="block">- An item must be added</span>
+                )}
+              </div>
+            )}
           </form>
         </div>
         <div className="relative z-10 flex w-full flex-wrap items-center justify-end gap-2 px-6 py-5 before:pointer-events-none before:absolute before:bottom-full before:left-0 before:right-0 before:z-10 before:h-16 before:bg-shadowDown before:content-['']">

@@ -51,9 +51,11 @@ export default {
       },
       inset: {
         out: "calc(100% + 22px)",
+        sm: "calc(100% + 8px)",
       },
       boxShadow: {
         card: "0px 10px 10px -10px rgba(72, 84, 159, 0.10)",
+        picker: "0px 10px 20px 0px rgba(0, 0, 0, 0.25)",
       },
       backgroundImage: {
         shadowDown:

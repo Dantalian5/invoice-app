@@ -1,5 +1,5 @@
-export function formatDate(inputDate: string): string {
-  const date = new Date(inputDate);
+export function formatDate(inputDate?: string): string {
+  const date = inputDate ? new Date(inputDate) : new Date();
   const options: Intl.DateTimeFormatOptions = {
     day: "2-digit",
     month: "short",

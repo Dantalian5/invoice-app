@@ -21,6 +21,9 @@ function Input(
   return (
     <label
       className={`${className} ${isError ? "text-danger" : "text-neutral-400"} text-sm font-medium tracking-normal`}
+      onClick={(e) => {
+        e.preventDefault();
+      }}
     >
       <span className="flex w-full items-center justify-between">
         {label}
