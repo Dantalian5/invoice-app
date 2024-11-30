@@ -1,5 +1,5 @@
 import { useInvoice } from "@/components/context/InvoiceContext";
-import { svgArrowLeft } from "@/components/svg/SvgIcons";
+import { svgArrowLeft, svgDelete } from "@/components/svg/SvgIcons";
 import Button from "@/components/commons/Button";
 import Input from "@/components/form/Input";
 import { z } from "zod";
@@ -86,7 +86,6 @@ const InvoiceForm = () => {
   }, [invoiceData, mode]);
 
   const onCloseForm = () => {
-    reset();
     closeForm();
   };
 
@@ -97,7 +96,7 @@ const InvoiceForm = () => {
       }`}
     >
       <div className="transition-theme absolute left-0 top-0 flex size-full flex-col overflow-hidden bg-white dark:bg-black">
-        <div className="z-10 w-full px-6 pb-4 pt-8">
+        <div className="relative z-10 w-full px-6 pb-4 pt-8">
           <button
             className="flex items-center gap-6 text-base font-bold leading-none tracking-tight text-black-light dark:text-white"
             onClick={onCloseForm}
@@ -105,9 +104,10 @@ const InvoiceForm = () => {
             <span className="mb-1">{svgArrowLeft}</span>Go back
           </button>
         </div>
-        <div className="z-0 w-full flex-grow overflow-hidden">
+        <div className="relative z-0 w-full flex-grow overflow-hidden">
+          <div className="pointer-events-none absolute left-0 right-0 top-0 z-10 h-4 bg-gradient-to-b from-white to-neutral-100/0 dark:from-black dark:to-black/0"></div>
           <form
-            className="z-0 size-full overflow-scroll px-6 pb-16 pt-4"
+            className="z-0 size-full overflow-scroll px-6 pb-20 pt-4"
             onSubmit={handleSubmit(onSubmit)}
           >
             <p className="mb-6 text-2xl font-bold -tracking-[0.5px] text-black-light dark:text-white">
@@ -226,22 +226,91 @@ const InvoiceForm = () => {
                 errorMessage={errors.description?.message}
               />
             </div>
+            <div className="">
+              <span className="mb-6 block text-lg font-bold tracking-tight text-[#777f98]">
+                Item List
+              </span>
+              <div className="flex flex-col gap-12">
+                {fields.map((field, index) => (
+                  <div
+                    key={field.id}
+                    className="flex flex-wrap items-center gap-x-4 gap-y-6"
+                  >
+                    <Input
+                      className="w-full"
+                      label="Item Name"
+                      {...register(`items.${index}.name` as const)}
+                      isError={!!errors.items?.[index]?.name}
+                      errorMessage={errors.items?.[index]?.name?.message}
+                    />
+                    <Input
+                      className="flex-[1_1_44px]"
+                      label="Qty."
+                      {...register(`items.${index}.quantity`, {
+                        valueAsNumber: true,
+                      })}
+                      isError={!!errors.items?.[index]?.quantity}
+                      errorMessage={errors.items?.[index]?.quantity?.message}
+                    />
+                    <Input
+                      className="flex-[1_1_80px]"
+                      label="Price"
+                      {...register(`items.${index}.price`, {
+                        valueAsNumber: true,
+                      })}
+                      isError={!!errors.items?.[index]?.price}
+                      errorMessage={errors.items?.[index]?.price?.message}
+                    />
+                    <div className="flex-[1_1_65px] text-sm font-medium tracking-normal text-neutral-400">
+                      <span className="block w-full">Total</span>
+                      <span className="mt-2 block w-full py-4 text-base font-bold">
+                        400
+                      </span>
+                    </div>
+                    <button
+                      type="button"
+                      className="mb-5 mr-4 w-fit self-end text-neutral-300"
+                      onClick={() => remove(index)}
+                      aria-label="Remove item"
+                    >
+                      {svgDelete}
+                    </button>
+                  </div>
+                ))}
+                <Button
+                  variant="secondary"
+                  onClick={() =>
+                    append({ name: "", quantity: 1, price: 1, total: 1 })
+                  }
+                  size="lg"
+                  type="button"
+                >
+                  + Add New Item
+                </Button>
+              </div>
+            </div>
           </form>
         </div>
-        <div className="z-10 flex w-full flex-wrap items-center justify-between gap-1.5 px-6 py-5">
-          <Button variant="secondary" size="sm">
-            Discard
+        <div className="relative z-10 flex w-full flex-wrap items-center justify-end gap-2 px-6 py-5 before:pointer-events-none before:absolute before:bottom-full before:left-0 before:right-0 before:z-10 before:h-16 before:bg-shadowDown before:content-['']">
+          <Button
+            variant="secondary"
+            size={mode === "create" ? "sm" : "md"}
+            onClick={onCloseForm}
+          >
+            {mode === "create" ? "Discard" : "Cancel"}
           </Button>
-          <Button variant="dark" size="sm">
-            Save as Draft
-          </Button>
+          {mode === "create" && (
+            <Button variant="dark" size="sm">
+              Save as Draft
+            </Button>
+          )}
           <Button
             variant="primary"
-            size="sm"
-            className="flex-grow"
+            size={mode === "create" ? "sm" : "md"}
+            className={`${mode === "create" && "flex-grow"}`}
             onClick={handleSubmit(onSubmit)}
           >
-            Save & Send
+            {mode === "create" ? "Save & Send" : "Save Changes"}
           </Button>
         </div>
       </div>

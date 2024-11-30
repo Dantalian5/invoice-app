@@ -55,6 +55,12 @@ export default {
       boxShadow: {
         card: "0px 10px 10px -10px rgba(72, 84, 159, 0.10)",
       },
+      backgroundImage: {
+        shadowDown:
+          "linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.10) 100%)",
+        shadowUp:
+          "linear-gradient(0deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.10) 100%)",
+      },
     },
   },
   plugins: [],
