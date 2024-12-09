@@ -8,6 +8,7 @@ interface DatePickerProps {
   className?: string;
   isError?: boolean;
   errorMessage?: string;
+  inactive?: boolean;
   onChange: (date: Date) => void;
 }
 
@@ -19,6 +20,7 @@ function DatePicker(
     isError = false,
     errorMessage,
     onChange,
+    inactive = false,
     ...props
   }: DatePickerProps,
   ref: React.Ref<HTMLButtonElement>,
@@ -41,7 +43,7 @@ function DatePicker(
     return () => document.removeEventListener("mousedown", handleOutsideClick);
   }, []);
 
-  const handleDateClick = (date: any) => {
+  const handleDateClick = (date: Date) => {
     onChange(date);
     setIsCalendarOpen(false); // Close the calendar
   };
@@ -49,23 +51,25 @@ function DatePicker(
   return (
     <div
       ref={labelRef}
-      className={`${className} ${isError ? "text-danger" : "text-neutral-400"} relative z-0 text-sm font-medium tracking-normal`}
+      className={`${className} ${isError ? "text-danger" : "text-neutral-400"} relative z-10 text-sm font-medium tracking-normal`}
     >
-      <span className="flex w-full items-center justify-between">
-        {label}
-        {isError && <span role="alert">{errorMessage}</span>}
-      </span>
-      <button
-        ref={ref}
-        type="button"
-        className={`${isError ? "border-danger" : "border-neutral-200 focus:border-primary dark:border-secondary-light"} mt-2 flex w-full items-center justify-between rounded-[4px] border bg-white bg-none px-5 py-4 text-base font-bold leading-none tracking-tight text-black-light focus:outline-none dark:bg-secondary dark:text-white`}
-        {...props}
-        onClick={toggleCalendar}
-        aria-label="Open Calendar and select invoice date"
-      >
-        {formatDate(value)}
-        {svgCalendar}
-      </button>
+      <div className={`${inactive && "opacity-50"} w-full`}>
+        <span className="flex w-full items-center justify-between">
+          {label}
+          {isError && <span role="alert">{errorMessage}</span>}
+        </span>
+        <button
+          ref={ref}
+          type="button"
+          className={`${isError ? "border-danger" : "border-neutral-200 focus:border-primary dark:border-secondary-light"} mt-2 flex w-full items-center justify-between rounded-[4px] border bg-white bg-none px-5 py-4 text-base font-bold leading-none tracking-tight text-black-light focus:outline-none dark:bg-secondary dark:text-white`}
+          {...props}
+          onClick={toggleCalendar}
+          aria-label="Open Calendar and select invoice date"
+        >
+          {formatDate(value)}
+          {svgCalendar}
+        </button>
+      </div>
       {isCalendarOpen && (
         <div className="border-gray-300 transition-theme absolute right-0 top-sm z-10 w-full max-w-80 rounded-lg bg-white shadow-picker dark:bg-secondary-light">
           <Calendar date={value} onDateClick={handleDateClick} />
@@ -76,7 +80,11 @@ function DatePicker(
 }
 export default forwardRef(DatePicker);
 
-const Calendar = ({ onDateClick, date }: any) => {
+interface CalendarProps {
+  onDateClick: (date: Date) => void;
+  date: Date;
+}
+const Calendar = ({ onDateClick, date }: CalendarProps) => {
   const [currentDate, setCurrentDate] = useState(date);
 
   const handlePrevMonth = () => {

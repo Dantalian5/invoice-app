@@ -3,7 +3,7 @@ import { svgArrowLeft, svgDelete } from "@/components/svg/SvgIcons";
 import Button from "@/components/commons/Button";
 import Input from "@/components/form/Input";
 import DatePicker from "@/components/form/DatePicker";
-import { z } from "zod";
+import TermPicker from "@/components/form/TermPicker";
 import {
   useForm,
   type SubmitHandler,
@@ -15,37 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { parseStringToDate } from "@/lib/dateFns";
 import { formatCurrency } from "@/lib/helpers";
-
-const formSchema = z.object({
-  clientName: z.string().min(1, "can't be empty"),
-  clientEmail: z.string().email("invalid email address"),
-  createdAt: z.date({ message: "invalid date" }),
-  paymentTerms: z.number().int().min(1, "can't be empty"),
-  description: z.string().min(1, "can't be empty"),
-  senderAddress: z.object({
-    street: z.string().min(1, "can't be empty"),
-    city: z.string().min(1, "can't be empty"),
-    postCode: z.string().min(1, "can't be empty"),
-    country: z.string().min(1, "can't be empty"),
-  }),
-  clientAddress: z.object({
-    street: z.string().min(1, "can't be empty"),
-    city: z.string().min(1, "can't be empty"),
-    postCode: z.string().min(1, "can't be empty"),
-    country: z.string().min(1, "can't be empty"),
-  }),
-  items: z
-    .array(
-      z.object({
-        name: z.string().min(1, "can't be empty"),
-        quantity: z.number().int().min(1, "can't be empty"),
-        price: z.number().min(1, "can't be empty"),
-        total: z.number().min(1, "can't be empty"),
-      }),
-    )
-    .min(1, "An item most be added"),
-});
-type FormSchema = z.infer<typeof formSchema>;
+import { formSchema, type FormSchema } from "@/schemas/invoices/form.schema";
 
 const InvoiceForm = () => {
   const { formState, closeForm } = useInvoice();
@@ -58,7 +28,7 @@ const InvoiceForm = () => {
           clientName: "",
           clientEmail: "",
           createdAt: new Date(),
-          paymentTerms: 0,
+          paymentTerms: 1,
           description: "",
           senderAddress: {
             street: "",
@@ -102,6 +72,7 @@ const InvoiceForm = () => {
   }, [invoiceData, mode]);
 
   const onCloseForm = () => {
+    reset(defaultValues);
     closeForm();
   };
 
@@ -221,7 +192,7 @@ const InvoiceForm = () => {
                 errorMessage={errors.clientAddress?.country?.message}
               />
             </div>
-            <div className="mb-16 flex w-full flex-wrap gap-6">
+            <div className="relative z-0 mb-16 flex w-full flex-wrap gap-6">
               <Controller
                 name="createdAt"
                 control={control}
@@ -233,15 +204,23 @@ const InvoiceForm = () => {
                     isError={!!fieldState.error}
                     errorMessage={fieldState.error?.message}
                     className="w-full"
+                    inactive={mode === "edit"}
                   />
                 )}
               />
-              <Input
-                className="w-full"
-                label="Payment Terms"
-                {...register("paymentTerms", { valueAsNumber: true })}
-                isError={!!errors.paymentTerms}
-                errorMessage={errors.paymentTerms?.message}
+              <Controller
+                name="paymentTerms"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <TermPicker
+                    value={field.value}
+                    onChange={field.onChange}
+                    label="Payment Term"
+                    isError={!!fieldState.error}
+                    errorMessage={fieldState.error?.message}
+                    className="w-full"
+                  />
+                )}
               />
               <Input
                 className="w-full"
@@ -275,7 +254,6 @@ const InvoiceForm = () => {
                         valueAsNumber: true,
                       })}
                       isError={!!errors.items?.[index]?.quantity}
-                      errorMessage={errors.items?.[index]?.quantity?.message}
                     />
                     <Input
                       className="flex-[1_1_80px]"
@@ -284,14 +262,13 @@ const InvoiceForm = () => {
                         valueAsNumber: true,
                       })}
                       isError={!!errors.items?.[index]?.price}
-                      errorMessage={errors.items?.[index]?.price?.message}
                     />
                     <div className="flex-[1_1_65px] text-sm font-medium tracking-normal text-neutral-400">
                       <span className="block w-full">Total</span>
                       <span className="mt-2 block w-full py-4 text-base font-bold">
                         {formatCurrency(
                           Number(items[index]?.price) *
-                            Number(items[index]?.quantity),
+                            Number(items[index]?.quantity) || 0,
                         )}
                       </span>
                     </div>
@@ -307,9 +284,7 @@ const InvoiceForm = () => {
                 ))}
                 <Button
                   variant="secondary"
-                  onClick={() =>
-                    append({ name: "", quantity: 1, price: 1, total: 1 })
-                  }
+                  onClick={() => append({ name: "", quantity: 1, price: 1 })}
                   size="lg"
                   type="button"
                 >

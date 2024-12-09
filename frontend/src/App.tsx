@@ -9,7 +9,7 @@ function App() {
   return (
     <InvoiceProvider>
       <div
-        className={`w-full ${theme} transition-theme flex h-screen min-w-80 flex-col overflow-hidden bg-neutral-100 lg:flex-row dark:bg-black`}
+        className={`w-full ${theme} transition-theme flex h-dvh min-w-80 flex-col overflow-hidden bg-neutral-100 lg:flex-row dark:bg-black`}
       >
         <Navbar />
         <main className="relative w-full flex-grow overflow-hidden">
