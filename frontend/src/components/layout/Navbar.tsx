@@ -19,7 +19,7 @@ function Navbar() {
           />
         </svg>
       </div>
-      <div className="lg:py lg flex items-center gap-6 px-6 py-6 lg:flex-col lg:px-0">
+      <div className="lg:py lg flex items-center gap-6 px-6 lg:flex-col lg:px-0 lg:py-6">
         <ThemeSwitch />
         <div className="h-full w-px bg-neutral-600 lg:h-px lg:w-full" />
         <User />

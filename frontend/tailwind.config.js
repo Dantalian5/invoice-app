@@ -34,6 +34,7 @@ export default {
       },
       paid: "#33D69F",
       pending: "#FF8F00",
+      transparent: "transparent",
     },
     letterSpacing: {
       sm: "-1.125px",
@@ -50,9 +51,17 @@ export default {
       },
       inset: {
         out: "calc(100% + 22px)",
+        sm: "calc(100% + 8px)",
       },
       boxShadow: {
         card: "0px 10px 10px -10px rgba(72, 84, 159, 0.10)",
+        picker: "0px 10px 20px 0px rgba(0, 0, 0, 0.25)",
+      },
+      backgroundImage: {
+        shadowDown:
+          "linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.10) 100%)",
+        shadowUp:
+          "linear-gradient(0deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.10) 100%)",
       },
     },
   },

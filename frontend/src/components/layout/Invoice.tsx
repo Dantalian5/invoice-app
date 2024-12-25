@@ -4,8 +4,10 @@ import StatusShield from "@/components/commons/StatusShield";
 import Button from "@/components/commons/Button";
 import { formatCurrency } from "@/lib/helpers";
 import db from "@/db/data.json";
+import { useInvoice } from "@/components/context/InvoiceContext";
 
 function Invoice() {
+  const { openForm } = useInvoice();
   const { id } = useParams({ strict: false });
 
   const invoice: any = db.find((invoice) => invoice.id === id);
@@ -17,7 +19,7 @@ function Invoice() {
           to="/dashboard"
           className="flex items-center gap-6 text-base font-bold leading-none tracking-tight text-black-light dark:text-white"
         >
-          <span>{svgArrowLeft}</span>Go back
+          <span className="mb-1">{svgArrowLeft}</span>Go back
         </Link>
       </div>
       <div className="relative flex w-full flex-grow flex-col overflow-hidden pb-[100px] sm:pb-0">
@@ -28,8 +30,15 @@ function Invoice() {
               Status
             </p>
             <StatusShield status={invoice.status} />
-            <div className="transition-theme absolute bottom-0 left-0 right-0 z-50 flex flex-wrap items-center justify-end gap-2 bg-white px-6 py-5 sm:relative sm:ml-auto sm:p-0 dark:bg-secondary">
-              <Button variant="secondary">Edit</Button>
+            <div className="transition-theme absolute bottom-0 left-0 right-0 z-20 flex flex-wrap items-center justify-end gap-2 bg-white px-6 py-5 sm:relative sm:ml-auto sm:p-0 dark:bg-secondary">
+              <Button
+                onClick={() => {
+                  openForm("edit", invoice);
+                }}
+                variant="secondary"
+              >
+                Edit
+              </Button>
               <Button variant="danger" className="ml-auto">
                 Delete
               </Button>

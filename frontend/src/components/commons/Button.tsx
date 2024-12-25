@@ -2,17 +2,18 @@ interface ButtonProps extends React.ComponentPropsWithoutRef<"button"> {
   children: React.ReactNode;
   className?: string;
   variant?: "primary" | "secondary" | "danger" | "dark";
-  isFullWidth?: boolean;
+  size?: "sm" | "md" | "lg";
 }
 
 function Button({
   children,
   className,
   variant = "primary",
-  isFullWidth = false,
+  size = "md",
   ...props
 }: ButtonProps) {
   let classColor;
+  let classSize;
   switch (variant) {
     case "primary":
       classColor = "bg-primary text-white hover:bg-primary-light";
@@ -31,14 +32,26 @@ function Button({
     default:
       classColor = "bg-primary text-white hover:bg-primary-light";
   }
-  const classWidth = isFullWidth ? "w-full" : "w-fit";
-  const classes = [classColor, className, classWidth].join(" ");
+  switch (size) {
+    case "sm":
+      classSize = "w-fit px-3 py-4";
+      break;
+    case "md":
+      classSize = "w-fit px-6 py-[1.125rem]";
+      break;
+    case "lg":
+      classSize = "w-full px-6 py-[1.125rem]";
+      break;
+    default:
+      classSize = "px-6 py-[1.125rem]";
+  }
+  const classes = [classColor, className, classSize].join(" ");
   return (
     <button
       className={
         classes +
         " " +
-        "min-w-fit rounded-full px-6 py-[1.125rem] text-base font-bold leading-none tracking-tight"
+        "min-w-fit rounded-full text-base font-bold leading-none tracking-tight"
       }
       {...props}
     >
