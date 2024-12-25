@@ -78,11 +78,15 @@ const InvoiceForm = () => {
 
   return (
     <div
-      className={`absolute inset-0 z-50 transform overflow-hidden bg-white shadow-lg transition-transform duration-300 ${
+      className={`absolute inset-0 z-50 transform overflow-hidden transition-transform duration-300 ${
         formState.isOpen ? "translate-x-0" : "-translate-x-full"
       }`}
     >
-      <div className="transition-theme absolute left-0 top-0 flex size-full flex-col overflow-hidden bg-white dark:bg-black">
+      <div
+        onClick={onCloseForm}
+        className="absolute inset-0 z-0 bg-[#000] opacity-50"
+      ></div>
+      <div className="transition-theme absolute left-0 top-0 z-10 flex size-full max-w-[37.5rem] flex-col overflow-hidden bg-white dark:bg-black">
         <div className="relative z-10 w-full px-6 pb-4 pt-8">
           <button
             className="flex items-center gap-6 text-base font-bold leading-none tracking-tight text-black-light dark:text-white"

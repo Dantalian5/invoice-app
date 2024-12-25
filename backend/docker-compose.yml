@@ -1,0 +1,43 @@
+services:
+  db:
+    image: postgres:15
+    container_name: database
+    environment:
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - backend-network
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: invoice-api
+    environment:
+      RAILS_ENV: production
+      DATABASE_HOST: ${DATABASE_HOST}
+      DATABASE_USER: ${DATABASE_USER}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      DATABASE_NAME_PRODUCTION: ${DATABASE_NAME}
+      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
+    ports:
+      - "80:3000"
+    depends_on:
+      - db
+    restart: unless-stopped
+    networks:
+      - backend-network
+      # - proxy-network
+
+volumes:
+  pg_data:
+
+networks:
+  backend-network:
+    driver: bridge
+  # proxy-network:
+    # external: true

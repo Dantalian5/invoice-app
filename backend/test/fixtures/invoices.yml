@@ -1,0 +1,29 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  id: MyString
+  created_at: 2024-12-17
+  payment_due: 2024-12-17
+  description: MyString
+  payment_terms: 1
+  client_name: MyString
+  client_email: MyString
+  status: MyString
+  total: 9.99
+  sender_address: 
+  client_address: 
+  items: 
+
+two:
+  id: MyString
+  created_at: 2024-12-17
+  payment_due: 2024-12-17
+  description: MyString
+  payment_terms: 1
+  client_name: MyString
+  client_email: MyString
+  status: MyString
+  total: 9.99
+  sender_address: 
+  client_address: 
+  items: 
