@@ -78,15 +78,15 @@ const InvoiceForm = () => {
 
   return (
     <div
-      className={`absolute inset-0 z-50 transform overflow-hidden transition-transform duration-300 ${
-        formState.isOpen ? "translate-x-0" : "-translate-x-full"
+      className={`group absolute inset-0 z-50 transform overflow-hidden transition-transform duration-300 ${
+        formState.isOpen ? "is-active translate-x-0" : "-translate-x-full"
       }`}
     >
       <div
         onClick={onCloseForm}
-        className="absolute inset-0 z-0 bg-[#000] opacity-50"
+        className={`absolute inset-0 z-0 bg-[#000] opacity-0 transition-opacity group-[.is-active]:opacity-50 group-[.is-active]:delay-200`}
       ></div>
-      <div className="transition-theme absolute left-0 top-0 z-10 flex size-full max-w-[37.5rem] flex-col overflow-hidden bg-white dark:bg-black">
+      <div className="transition-theme absolute left-0 top-0 z-10 flex size-full max-w-[37.5rem] sm:rounded-r-2xl flex-col overflow-hidden bg-white dark:bg-black">
         <div className="relative z-10 w-full px-6 pb-4 pt-8">
           <button
             className="flex items-center gap-6 text-base font-bold leading-none tracking-tight text-black-light dark:text-white"
@@ -311,6 +311,7 @@ const InvoiceForm = () => {
           <Button
             variant="secondary"
             size={mode === "create" ? "sm" : "md"}
+            className={mode === "create" ? "mr-auto" : "ml-auto"}
             onClick={onCloseForm}
           >
             {mode === "create" ? "Discard" : "Cancel"}
@@ -323,7 +324,7 @@ const InvoiceForm = () => {
           <Button
             variant="primary"
             size={mode === "create" ? "sm" : "md"}
-            className={`${mode === "create" && "flex-grow"}`}
+            // className={`${mode === "create" && "flex-grow"}`}
             onClick={handleSubmit(onSubmit)}
           >
             {mode === "create" ? "Save & Send" : "Save Changes"}

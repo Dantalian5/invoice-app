@@ -34,7 +34,7 @@ function Button({
   }
   switch (size) {
     case "sm":
-      classSize = "w-fit px-3 py-4";
+      classSize = "w-fit px-3 py-4 sm:px-6";
       break;
     case "md":
       classSize = "w-fit px-6 py-[1.125rem]";
