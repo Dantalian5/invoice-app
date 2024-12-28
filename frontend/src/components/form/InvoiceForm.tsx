@@ -25,21 +25,21 @@ const InvoiceForm = () => {
     mode === "edit"
       ? { ...invoiceData, createdAt: parseStringToDate(invoiceData.createdAt) }
       : {
-          clientName: "",
-          clientEmail: "",
-          createdAt: new Date(),
-          paymentTerms: 1,
+          client_name: "",
+          client_email: "",
+          created_at: new Date(),
+          payment_terms: 1,
           description: "",
-          senderAddress: {
+          sender_address: {
             street: "",
             city: "",
-            postCode: "",
+            post_code: "",
             country: "",
           },
-          clientAddress: {
+          client_address: {
             street: "",
             city: "",
-            postCode: "",
+            post_code: "",
             country: "",
           },
           items: [],
@@ -86,7 +86,7 @@ const InvoiceForm = () => {
         onClick={onCloseForm}
         className={`absolute inset-0 z-0 bg-[#000] opacity-0 transition-opacity group-[.is-active]:opacity-50 group-[.is-active]:delay-200`}
       ></div>
-      <div className="transition-theme absolute left-0 top-0 z-10 flex size-full max-w-[37.5rem] sm:rounded-r-2xl flex-col overflow-hidden bg-white dark:bg-black">
+      <div className="transition-theme absolute left-0 top-0 z-10 flex size-full max-w-[37.5rem] flex-col overflow-hidden bg-white sm:rounded-r-2xl dark:bg-black">
         <div className="relative z-10 w-full px-6 pb-4 pt-8">
           <button
             className="flex items-center gap-6 text-base font-bold leading-none tracking-tight text-black-light dark:text-white"
@@ -122,30 +122,30 @@ const InvoiceForm = () => {
               <Input
                 className="w-full"
                 label="Street Address"
-                {...register("senderAddress.street")}
-                isError={!!errors.senderAddress?.street}
-                errorMessage={errors.senderAddress?.street?.message}
+                {...register("sender_address.street")}
+                isError={!!errors.sender_address?.street}
+                errorMessage={errors.sender_address?.street?.message}
               />
               <Input
                 className="flex-1"
                 label="City"
-                {...register("senderAddress.city")}
-                isError={!!errors.senderAddress?.city}
-                errorMessage={errors.senderAddress?.city?.message}
+                {...register("sender_address.city")}
+                isError={!!errors.sender_address?.city}
+                errorMessage={errors.sender_address?.city?.message}
               />
               <Input
                 className="flex-1"
                 label="Post Code"
-                {...register("senderAddress.postCode")}
-                isError={!!errors.senderAddress?.postCode}
-                errorMessage={errors.senderAddress?.postCode?.message}
+                {...register("sender_address.post_code")}
+                isError={!!errors.sender_address?.post_code}
+                errorMessage={errors.sender_address?.post_code?.message}
               />
               <Input
                 className="w-full"
                 label="Country"
-                {...register("senderAddress.country")}
-                isError={!!errors.senderAddress?.country}
-                errorMessage={errors.senderAddress?.country?.message}
+                {...register("sender_address.country")}
+                isError={!!errors.sender_address?.country}
+                errorMessage={errors.sender_address?.country?.message}
               />
             </div>
             <div className="mb-10 flex w-full flex-wrap gap-6">
@@ -155,50 +155,50 @@ const InvoiceForm = () => {
               <Input
                 className="w-full"
                 label="Client's Name"
-                {...register("clientName")}
-                isError={!!errors.clientName}
-                errorMessage={errors.clientName?.message}
+                {...register("client_name")}
+                isError={!!errors.client_name}
+                errorMessage={errors.client_name?.message}
               />
               <Input
                 className="w-full"
                 label="Client's Email"
                 type="email"
-                {...register("clientEmail")}
-                isError={!!errors.clientEmail}
-                errorMessage={errors.clientEmail?.message}
+                {...register("client_email")}
+                isError={!!errors.client_email}
+                errorMessage={errors.client_email?.message}
               />
               <Input
                 className="w-full"
                 label="Street Address"
-                {...register("clientAddress.street")}
-                isError={!!errors.clientAddress?.street}
-                errorMessage={errors.clientAddress?.street?.message}
+                {...register("client_address.street")}
+                isError={!!errors.client_address?.street}
+                errorMessage={errors.client_address?.street?.message}
               />
               <Input
                 className="flex-1"
                 label="City"
-                {...register("clientAddress.city")}
-                isError={!!errors.clientAddress?.city}
-                errorMessage={errors.clientAddress?.city?.message}
+                {...register("client_address.city")}
+                isError={!!errors.client_address?.city}
+                errorMessage={errors.client_address?.city?.message}
               />
               <Input
                 className="flex-1"
                 label="Post Code"
-                {...register("clientAddress.postCode")}
-                isError={!!errors.clientAddress?.postCode}
-                errorMessage={errors.clientAddress?.postCode?.message}
+                {...register("client_address.post_code")}
+                isError={!!errors.client_address?.post_code}
+                errorMessage={errors.client_address?.post_code?.message}
               />
               <Input
                 className="w-full"
                 label="Country"
-                {...register("clientAddress.country")}
-                isError={!!errors.clientAddress?.country}
-                errorMessage={errors.clientAddress?.country?.message}
+                {...register("client_address.country")}
+                isError={!!errors.client_address?.country}
+                errorMessage={errors.client_address?.country?.message}
               />
             </div>
             <div className="relative z-0 mb-16 flex w-full flex-wrap gap-6">
               <Controller
-                name="createdAt"
+                name="created_at"
                 control={control}
                 render={({ field, fieldState }) => (
                   <DatePicker
@@ -213,7 +213,7 @@ const InvoiceForm = () => {
                 )}
               />
               <Controller
-                name="paymentTerms"
+                name="payment_terms"
                 control={control}
                 render={({ field, fieldState }) => (
                   <TermPicker

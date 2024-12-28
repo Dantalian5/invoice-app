@@ -1,21 +1,21 @@
 import { z } from "zod";
 
 export const formSchema = z.object({
-  clientName: z.string().min(1, "can't be empty"),
-  clientEmail: z.string().email("invalid email address"),
-  createdAt: z.date({ message: "invalid date" }),
-  paymentTerms: z.number().int().min(1, "can't be empty"),
+  client_name: z.string().min(1, "can't be empty"),
+  client_email: z.string().email("invalid email address"),
+  created_at: z.date({ message: "invalid date" }),
+  payment_terms: z.number().int().min(1, "can't be empty"),
   description: z.string().min(1, "can't be empty"),
-  senderAddress: z.object({
+  sender_address: z.object({
     street: z.string().min(1, "can't be empty"),
     city: z.string().min(1, "can't be empty"),
-    postCode: z.string().min(1, "can't be empty"),
+    post_code: z.string().min(1, "can't be empty"),
     country: z.string().min(1, "can't be empty"),
   }),
-  clientAddress: z.object({
+  client_address: z.object({
     street: z.string().min(1, "can't be empty"),
     city: z.string().min(1, "can't be empty"),
-    postCode: z.string().min(1, "can't be empty"),
+    post_code: z.string().min(1, "can't be empty"),
     country: z.string().min(1, "can't be empty"),
   }),
   items: z

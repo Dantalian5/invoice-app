@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::API
   SECRET_KEY = Rails.application.credentials[:jwt_secret_key]
   include Response
+  before_action :handle_options_request
 
   def authorize_request
     header = request.headers["Authorization"]
@@ -26,5 +27,16 @@ class ApplicationController < ActionController::API
   end
   rescue_from ActiveRecord::RecordInvalid do |e|
     error_response(e.message, :unprocessable_entity)
+  end
+
+  private
+
+  def handle_options_request
+    if request.method == "OPTIONS"
+      headers["Access-Control-Allow-Origin"] = request.headers["Origin"]
+      headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, PATCH, DELETE, OPTIONS"
+      headers["Access-Control-Allow-Headers"] = "Authorization, Content-Type, Accept"
+      head :ok
+    end
   end
 end

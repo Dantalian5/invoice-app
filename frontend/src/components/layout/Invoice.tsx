@@ -1,17 +1,68 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
 import { useParams, Link } from "@tanstack/react-router";
 import { svgArrowLeft } from "@/components/svg/SvgIcons";
 import StatusShield from "@/components/commons/StatusShield";
 import Button from "@/components/commons/Button";
 import { formatCurrency } from "@/lib/helpers";
-import db from "@/db/data.json";
 import { useInvoice } from "@/components/context/InvoiceContext";
 
 function Invoice() {
   const { openForm } = useInvoice();
   const { id } = useParams({ strict: false });
+  const [invoice, setInvoice] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
-  const invoice: any = db.find((invoice) => invoice.id === id);
+  const getInvoice = async () => {
+    try {
+      setLoading(true);
+      // await new Promise((resolve) => setTimeout(resolve, 4000));
+      const response = await axios.get(`http://localhost:3000/invoices/${id}`, {
+        headers: {
+          Authorization:
+            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJqdGkiOiJmZWFkMmQ5MS01YTdlLTQyMDktYjZiYi0zYmRlYjViYjNjZGQiLCJleHAiOjE3MzU0NjM4NjJ9.nZiuh6Es7cF2InrREk6jDKawA2-wwRyGiejPPgyebXM",
+        },
+      });
+      if (response.status !== 200) {
+        throw new Error("Error fetching invoices");
+      }
+      return response.data;
+    } catch (error) {
+      console.error("error=>", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
+    getInvoice().then((data) => {
+      setInvoice(data.data);
+    });
+  }, []);
+
+  if (loading || !invoice) {
+    return (
+      <div className="flex size-full flex-col items-center justify-center">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="1em"
+          height="1em"
+          viewBox="0 0 24 24"
+          className="animate-spin text-6xl text-primary"
+        >
+          <g fill="currentColor">
+            <path
+              fillRule="evenodd"
+              d="M12 19a7 7 0 1 0 0-14a7 7 0 0 0 0 14m0 3c5.523 0 10-4.477 10-10S17.523 2 12 2S2 6.477 2 12s4.477 10 10 10"
+              clipRule="evenodd"
+              opacity={0.2}
+            ></path>
+            <path d="M2 12C2 6.477 6.477 2 12 2v3a7 7 0 0 0-7 7z"></path>
+          </g>
+        </svg>
+      </div>
+    );
+  }
   return (
     <div className="relative flex size-full flex-col overflow-hidden pt-8 sm:pt-12 lg:pt-[65px]">
       <div className="mb-4 w-full px-6 sm:px-10">
@@ -60,10 +111,10 @@ function Invoice() {
                 className="w-full text-left text-sm leading-[18px] tracking-normal text-neutral-400 sm:w-fit sm:text-right dark:text-neutral-200"
                 aria-label="Sender Address"
               >
-                {invoice.senderAddress.street} <br />
-                {invoice.senderAddress.city} <br />
-                {invoice.senderAddress.postCode} <br />
-                {invoice.senderAddress.country}
+                {invoice.sender_address.street} <br />
+                {invoice.sender_address.city} <br />
+                {invoice.sender_address.postCode} <br />
+                {invoice.sender_address.country}
               </p>
             </div>
             <div className="flex flex-grow flex-col gap-[30px]">
@@ -74,7 +125,7 @@ function Invoice() {
                 <span className="mb-[1ch] block text-sm font-medium text-neutral-400 dark:text-neutral-200">
                   Invoice Date
                 </span>
-                {invoice.createdAt}
+                {invoice.created_at}
               </p>
               <p
                 className="text-base font-bold tracking-tight text-black-light dark:text-white"
@@ -83,7 +134,7 @@ function Invoice() {
                 <span className="mb-[1ch] block text-sm font-medium text-neutral-400 dark:text-neutral-200">
                   Payment Due
                 </span>
-                {invoice.paymentDue}
+                {invoice.payment_due}
               </p>
             </div>
             <p
@@ -92,16 +143,16 @@ function Invoice() {
             >
               <span className="mb-[1ch] block">Billed to</span>
               <span className="mb-2 block text-base font-bold tracking-tight text-black-light dark:text-white">
-                {invoice.clientName}
+                {invoice.client_name}
               </span>
               <span className="leading-[18px]">
-                {invoice.clientAddress.street}
+                {invoice.client_address.street}
                 <br />
-                {invoice.clientAddress.city}
+                {invoice.client_address.city}
                 <br />
-                {invoice.clientAddress.postCode}
+                {invoice.client_address.postCode}
                 <br />
-                {invoice.clientAddress.country}
+                {invoice.client_address.country}
               </span>
             </p>
             <p
@@ -111,7 +162,7 @@ function Invoice() {
               <span className="mb-3 block text-sm font-medium text-neutral-400 dark:text-neutral-200">
                 Send to
               </span>
-              {invoice.clientEmail}
+              {invoice.client_email}
             </p>
             <div className="mt-2 w-full overflow-hidden rounded-lg">
               <div className="transition-theme flex w-full flex-col gap-6 bg-[#f9fafe] px-6 sm:px-8 dark:bg-secondary-light">

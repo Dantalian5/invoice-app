@@ -85,7 +85,7 @@ interface CalendarProps {
   date: Date;
 }
 const Calendar = ({ onDateClick, date }: CalendarProps) => {
-  const [currentDate, setCurrentDate] = useState(date);
+  const [currentDate, setCurrentDate] = useState(date instanceof Date ? date : new Date(date));
 
   const handlePrevMonth = () => {
     setCurrentDate(
