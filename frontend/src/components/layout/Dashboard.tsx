@@ -5,22 +5,18 @@ import { formatDate, formatCurrency } from "@/lib/helpers";
 import { svgArrowLeft } from "@/components/svg/SvgIcons";
 import emptyImg from "@/assets/illustration-empty.svg";
 import { Link } from "@tanstack/react-router";
-import axios from "axios";
+import { useAxiosInterceptors } from "@/hooks/useAxiosInterceptors";
 
 function Dashboard() {
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const apiClient = useAxiosInterceptors();
 
   const getInvoices = async () => {
     try {
       setLoading(true);
-      // await new Promise((resolve) => setTimeout(resolve, 4000));
-      const response = await axios.get("http://localhost:3000/invoices", {
-        headers: {
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJqdGkiOiJmZWFkMmQ5MS01YTdlLTQyMDktYjZiYi0zYmRlYjViYjNjZGQiLCJleHAiOjE3MzU0NjM4NjJ9.nZiuh6Es7cF2InrREk6jDKawA2-wwRyGiejPPgyebXM",
-        },
-      });
+      const response = await apiClient.get("/invoices");
+
       if (response.status !== 200) {
         throw new Error("Error fetching invoices");
       }
@@ -36,7 +32,7 @@ function Dashboard() {
     getInvoices().then((data) => {
       setData(data.data || []);
     });
-  }, []);
+  }, [apiClient]);
 
   if (loading) {
     return (
@@ -63,7 +59,7 @@ function Dashboard() {
   }
   return (
     <div className="flex size-full flex-col overflow-hidden pt-8 sm:pt-16 lg:pt-[78px]">
-      <ActionBar />
+      <ActionBar invoicesCount={data.length || 0} />
       <div className="relative mt-4 flex w-full flex-grow flex-col overflow-hidden lg:mt-6">
         <div className="pointer-events-none absolute left-0 right-0 top-0 z-10 h-4 bg-gradient-to-b from-neutral-100 to-neutral-100/0 sm:h-8 dark:from-black dark:to-black/0"></div>
         {data.length === 0 ? (
@@ -87,7 +83,8 @@ function Dashboard() {
             {data.map((invoice) => (
               <li key={invoice.id} className="w-full">
                 <Link
-                  to={`/dashboard/${invoice.id}`}
+                  to="/dashboard/$id"
+                  params={{ id: invoice.id }}
                   className="transition-theme grid w-full cursor-pointer grid-cols-2 items-center gap-y-2 rounded-lg bg-white p-6 py-4 shadow-card hover:ring-1 hover:ring-primary md:flex dark:bg-secondary"
                 >
                   <h2 className="col-span-1 col-start-1 row-span-1 mb-4 w-[7ch] text-base font-bold leading-none tracking-tight text-black-light md:row-start-1 md:mb-0 md:mr-7 dark:text-white">

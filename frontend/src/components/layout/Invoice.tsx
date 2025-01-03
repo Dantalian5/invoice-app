@@ -1,28 +1,23 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { useParams, Link } from "@tanstack/react-router";
 import { svgArrowLeft } from "@/components/svg/SvgIcons";
 import StatusShield from "@/components/commons/StatusShield";
 import Button from "@/components/commons/Button";
 import { formatCurrency } from "@/lib/helpers";
 import { useInvoice } from "@/components/context/InvoiceContext";
+import { useAxiosInterceptors } from "@/hooks/useAxiosInterceptors";
 
 function Invoice() {
   const { openForm } = useInvoice();
   const { id } = useParams({ strict: false });
   const [invoice, setInvoice] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const apiClient = useAxiosInterceptors();
 
   const getInvoice = async () => {
     try {
       setLoading(true);
-      // await new Promise((resolve) => setTimeout(resolve, 4000));
-      const response = await axios.get(`http://localhost:3000/invoices/${id}`, {
-        headers: {
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJqdGkiOiJmZWFkMmQ5MS01YTdlLTQyMDktYjZiYi0zYmRlYjViYjNjZGQiLCJleHAiOjE3MzU0NjM4NjJ9.nZiuh6Es7cF2InrREk6jDKawA2-wwRyGiejPPgyebXM",
-        },
-      });
+      const response = await apiClient.get(`/invoices/${id}`);
       if (response.status !== 200) {
         throw new Error("Error fetching invoices");
       }
