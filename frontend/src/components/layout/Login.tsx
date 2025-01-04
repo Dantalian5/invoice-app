@@ -1,14 +1,16 @@
 import Input from "@/components/form/Input";
 import Button from "@/components/commons/Button";
-import { Link, useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate, getRouteApi } from "@tanstack/react-router";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { loginSchema, LoginSchema } from "@/schemas/auth/login";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuth } from "@/components/context/AuthContext";
+import { useEffect } from "react";
 
 function Login() {
-  const { login } = useAuth();
+  const { login, isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const params = getRouteApi("/login").useSearch() as { redirect?: string };
   const {
     register,
     handleSubmit,
@@ -26,10 +28,12 @@ function Login() {
     const isLogin = await login(email, password);
     if (!isLogin) {
       alert("Invalid email or password");
-    } else {
-      navigate({ to: "/dashboard" });
-    }
+    } 
   };
+
+  useEffect(() => {
+    navigate({ to: params.redirect || "/", replace: true });
+  }, [isAuthenticated]);
 
   return (
     <div className="relative flex size-full flex-col items-center justify-center overflow-hidden p-6">
